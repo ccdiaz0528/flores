@@ -1,54 +1,154 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: #fff7a0; /* Fondo amarillo suave */
+    background: linear-gradient(135deg, #fff7a0 0%, #ffe066 100%);
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    min-height: 100vh;
 }
 
 .container {
-    text-align: center;
-    padding-top: 20vh;
-    position: relative; /* Añadido */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    padding: 2rem 1rem;
+    box-sizing: border-box;
+}
+
+#pregunta {
+    font-size: 2rem;
+    color: #b8860b;
+    margin-bottom: 2rem;
+    text-shadow: 1px 1px 4px #fffbe6;
+    font-family: 'Pacifico', cursive, 'Segoe UI', Arial, sans-serif;
+    letter-spacing: 1px;
 }
 
 #botones-container {
-    margin-top: 20px;
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+    position: relative;
+    height: 60px;
+    justify-content: center;
 }
 
 button {
-    margin: 10px;
-    font-size: 16px;
-    padding: 10px 20px;
-    background-color: #ffcc00; /* Fondo amarillo */
+    font-size: 1.2rem;
+    padding: 0.8rem 2.2rem;
+    background: linear-gradient(90deg, #ffcc00 60%, #ffe066 100%);
     border: none;
+    border-radius: 2rem;
     cursor: pointer;
+    color: #7c5a00;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(255, 204, 0, 0.15);
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    outline: none;
+    position: relative;
+    overflow: hidden;
+}
+button:active {
+    transform: scale(0.96);
+    box-shadow: 0 1px 4px rgba(255, 204, 0, 0.18);
+}
+button:hover {
+    background: linear-gradient(90deg, #ffe066 60%, #ffcc00 100%);
+    transform: scale(1.07);
+    box-shadow: 0 4px 16px rgba(255, 204, 0, 0.25);
+}
+
+#final-container {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10;
+    background: transparent;
 }
 
 #mensaje-final {
-    font-size: 24px;
-    color: #ffffff; /* Letras blancas */
-    margin-top: 150px; /* Ajusta la distancia desde la parte superior */
-    position: absolute; /* Añadido */
-    top: calc(100% + 150px); /* Alineado con el borde inferior de la imagen de las flores */
-    left: 50%; /* Centrar horizontalmente */
-    transform: translateX(-50%); /* Centrar horizontalmente */
-    padding: 10px 20px; /* Espaciado interno */
-    background-color: rgba(255, 204, 0, 0.6); /* Fondo amarillo semitransparente */
-    border-radius: 10px; /* Bordes redondeados */
-    z-index: 2; /* Asegura que el texto esté por encima de los corazones */
+    font-size: 2rem;
+    color: #fff;
+    margin-top: 2.5rem;
+    position: static;
+    padding: 1rem 2rem;
+    background: linear-gradient(90deg, #ffcc00 80%, #ffe066 100%);
+    border-radius: 1.5rem;
+    box-shadow: 0 2px 12px rgba(255, 204, 0, 0.18);
+    z-index: 2;
+    text-shadow: 1px 1px 6px #b8860b;
+    letter-spacing: 1px;
+    font-family: 'Pacifico', cursive, 'Segoe UI', Arial, sans-serif;
 }
 
 #imagen-flores {
     display: block;
-    margin: 0 auto; /* Centra horizontalmente */
-    margin-top: 30px; /* Espacio superior */
-    width: 250px; /* Tamaño de la imagen ajustable */
-    position: relative; /* Añadido */
-    z-index: 1; /* Asegura que la imagen esté detrás del texto y por encima de los corazones */
+    margin: 0 auto;
+    width: 220px;
+    max-width: 80vw;
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 4px 16px #ffe066aa);
+    border-radius: 1.5rem;
+    transition: filter 0.3s;
+}
+
+#imagen-flores:hover {
+    filter: drop-shadow(0 8px 32px #ffe066cc);
 }
 
 .corazon {
     position: absolute;
-    width: 30px; /* Tamaño del corazón */
+    width: 30px;
     height: auto;
-    z-index: 0; /* Asegura que los corazones estén detrás de la imagen y el texto */
+    z-index: 0;
+    pointer-events: none;
+    filter: drop-shadow(0 2px 6px #ffe06699);
+    transition: width 0.2s;
+    opacity: 0.95;
+}
+
+#corazones-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+}
+
+#boton-no {
+    transition: left 0.2s, top 0.2s, background 0.2s, transform 0.2s;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    #pregunta {
+        font-size: 1.2rem;
+    }
+    button {
+        font-size: 1rem;
+        padding: 0.7rem 1.2rem;
+    }
+    #mensaje-final {
+        font-size: 1.1rem;
+        padding: 0.7rem 1.2rem;
+    }
+    #imagen-flores {
+        width: 140px;
+    }
+    .corazon {
+        width: 18px;
+    }
+    #botones-container {
+        gap: 1rem;
+        height: 45px;
+    }
 }

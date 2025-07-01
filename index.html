@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Te Regalo Flores Amarillas</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
@@ -13,9 +14,11 @@
             <button id="boton-si">Sí</button>
             <button id="boton-no">No</button>
         </div>
-        <div id="mensaje-final" style="display: none;">Para ti, preciosa</div>
     </div>
-    <img id="imagen-flores" src="flores_amarillas.png" alt="Flores amarillas" style="display: none;">
+    <div id="final-container" style="display: none; flex-direction: column; align-items: center;">
+        <img id="imagen-flores" src="flores_amarillas.png" alt="Flores amarillas" style="display: block;">
+        <div id="mensaje-final">Para ti, preciosa</div>
+    </div>
     <div id="corazones-container">
         <!-- Agrega los corazones aquí mediante JavaScript -->
     </div>

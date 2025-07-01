@@ -5,68 +5,81 @@
     const imagenFlores = document.getElementById("imagen-flores");
     const mensajeFinal = document.getElementById("mensaje-final");
 
-    function mostrarFlores() {
-        if (botonSi && botonNo && pregunta && imagenFlores && mensajeFinal) {
+    let corazones = [];
+
+        function mostrarFlores() {
+        if (botonSi && botonNo && pregunta) {
             botonSi.style.display = "none";
             botonNo.style.display = "none";
             pregunta.style.display = "none";
-
-            imagenFlores.style.display = "block";
-            mensajeFinal.style.display = "block";
-            mensajeFinal.innerText = "Para ti, preciosa";
-
+            // Mostrar el contenedor final centrado
+            document.getElementById("final-container").style.display = "flex";
             mostrarCorazones();
         }
     }
 
-    function moverBoton() {
-        const nuevaPosicionX = Math.random() * (window.innerWidth - botonNo.offsetWidth);
-        const nuevaPosicionY = Math.random() * (window.innerHeight - botonNo.offsetHeight);
-        botonNo.style.left = nuevaPosicionX + "px";
-        botonNo.style.top = nuevaPosicionY + "px";
-    }
+        function moverBoton() {
+            const botonNo = document.getElementById("boton-no");
+            // Cambia a posición fija solo al primer click
+            if (botonNo.style.position !== "fixed") {
+                botonNo.style.position = "fixed";
+                // Calcula la posición actual en pantalla y la mantiene
+                const rect = botonNo.getBoundingClientRect();
+                botonNo.style.left = rect.left + "px";
+                botonNo.style.top = rect.top + "px";
+                botonNo.style.margin = "0"; // Elimina el margen para evitar saltos
+            }
+            // Calcula límites de la ventana
+            const maxX = window.innerWidth - botonNo.offsetWidth;
+            const maxY = window.innerHeight - botonNo.offsetHeight;
+            const nuevaPosicionX = Math.random() * maxX;
+            const nuevaPosicionY = Math.random() * maxY;
+            botonNo.style.left = nuevaPosicionX + "px";
+            botonNo.style.top = nuevaPosicionY + "px";
+        }
 
     function mostrarCorazones() {
         const corazonesContainer = document.getElementById("corazones-container");
         if (corazonesContainer) {
-            for (let i = 0; i < 150; i++) {
+            corazones = [];
+            corazonesContainer.innerHTML = "";
+            const cantidad = 60; // Menos corazones para mejor rendimiento
+            for (let i = 0; i < cantidad; i++) {
                 const corazon = document.createElement("img");
                 corazon.src = "corazon_amarillo.png";
                 corazon.className = "corazon";
+                corazon.style.position = "absolute";
                 corazonesContainer.appendChild(corazon);
-                moverCorazon(corazon);
+
+                corazones.push({
+                    el: corazon,
+                    x: Math.random() * window.innerWidth,
+                    y: Math.random() * window.innerHeight,
+                    vx: Math.random() * 4 - 2,
+                    vy: Math.random() * 4 - 2
+                });
             }
+            animarCorazones();
         }
     }
 
-    function moverCorazon(corazon) {
-        const ventanaAncho = window.innerWidth;
-        const ventanaAlto = window.innerHeight;
-        const corazonAncho = corazon.offsetWidth;
-        const corazonAlto = corazon.offsetHeight;
-        let posX = Math.random() * (ventanaAncho - corazonAncho);
-        let posY = Math.random() * (ventanaAlto - corazonAlto);
-        let velocidadX = Math.random() * 4 - 2;
-        let velocidadY = Math.random() * 4 - 2;
+    function animarCorazones() {
+        const ancho = window.innerWidth;
+        const alto = window.innerHeight;
 
-        function mover() {
-            posX += velocidadX;
-            posY += velocidadY;
+        corazones.forEach(corazon => {
+            corazon.x += corazon.vx;
+            corazon.y += corazon.vy;
 
-            if (posX <= 0 || posX >= ventanaAncho - corazonAncho) {
-                velocidadX *= -1;
-            }
-            if (posY <= 0 || posY >= ventanaAlto - corazonAlto) {
-                velocidadY *= -1;
-            }
+            // Rebote en los bordes
+            if (corazon.x <= 0 || corazon.x >= ancho - 40) corazon.vx *= -1;
+            if (corazon.y <= 0 || corazon.y >= alto - 40) corazon.vy *= -1;
 
-            corazon.style.left = posX + "px";
-            corazon.style.top = posY + "px";
+            corazon.el.style.left = corazon.x + "px";
+            corazon.el.style.top = corazon.y + "px";
+        });
 
-            requestAnimationFrame(mover);
-        }
-
-        mover();
+        requestAnimationFrame(animarCorazones);
     }
 
     if (botonSi && botonNo) {
